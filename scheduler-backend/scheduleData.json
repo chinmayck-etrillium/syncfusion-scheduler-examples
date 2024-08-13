@@ -1,0 +1,30 @@
+[
+  {
+    "Subject": "Meeting with someone",
+    "Location": "Kozhikode",
+    "StartTime": "2024-08-01T03:30:00.000Z",
+    "EndTime": "2024-08-01T04:00:00.000Z",
+    "IsAllDay": false,
+    "StartTimezone": null,
+    "EndTimezone": null,
+    "Description": "Meeting with someone",
+    "RecurrenceRule": null,
+    "Id": 1,
+    "Guid": "4bd8dcbf-9998-97f5-c998-ebbf533b948b",
+    "RecurrenceID": null,
+    "FollowingID": null,
+    "RecurrenceException": null
+  },
+  {
+    "Subject": "Meeting",
+    "Location": "Kannur",
+    "StartTime": "2024-08-02T03:30:00.000Z",
+    "EndTime": "2024-08-02T04:00:00.000Z",
+    "IsAllDay": false,
+    "StartTimezone": null,
+    "EndTimezone": null,
+    "Description": "Meeting",
+    "RecurrenceRule": "FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;INTERVAL=1;",
+    "Id": 2
+  }
+]

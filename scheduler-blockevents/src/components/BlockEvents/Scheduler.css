@@ -1,0 +1,6 @@
+.unavailable-event {
+    background-color: grey !important;
+    opacity: 0.5;
+    color: white; /* Optional: If you want the text to be visible in contrast */
+  }
+  

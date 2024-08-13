@@ -1,0 +1,36 @@
+.custom-event {
+    padding: 5px;
+    border-radius: 4px;
+    background: #e0e0e0 !important;
+    color: #000;
+    
+}
+
+.e-schedule .e-appoinment-details {
+    padding: 0px;
+}
+
+.event-title {
+    background: #e0e0e0 !important;
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 3px;
+}
+
+.event-location {
+    background: #e0e0e0 !important;
+    font-size: 12px;
+    margin-bottom: 3px;
+}
+
+.event-time {
+    background: #e0e0e0 !important;
+    font-size: 12px;
+    margin-bottom: 3px;
+}
+
+.event-description {
+    background: #e0e0e0 !important;
+    font-size: 10px;
+    color: #555;
+}
