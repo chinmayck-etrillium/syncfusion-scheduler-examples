@@ -14,6 +14,7 @@ import { ColorPickerComponent } from "@syncfusion/ej2-react-inputs";
 const SchedulerWithColorPicker = () => {
   const [scheduleData, setScheduleData] = useState([]);
   const [selectedColor, setSelectedColor] = useState("#1aaa55");
+  const [isBlocked, setIsBlocked] = useState(false);
   const scheduleObj = useRef(null);
 
   const onEventRendered = (args) => {
@@ -73,6 +74,18 @@ const SchedulerWithColorPicker = () => {
               </td>
             </tr>
             <tr>
+              <td className="e-textlabel">Block Appointment</td>
+              <td colSpan={4}>
+                <input
+                  type="checkbox"
+                  id="isBlocked"
+                  checked={isBlocked}
+                  onChange={(e) => setIsBlocked(e.target.checked)} // Update block appointment state
+                />
+                <label htmlFor="isBlocked">Block this time slot</label>
+              </td>
+            </tr>
+            <tr>
               <td className="e-textlabel">End Time</td>
               <td colSpan={4}>
                 <input
@@ -104,8 +117,15 @@ const SchedulerWithColorPicker = () => {
         ...args.data[0],
         CategoryColor: selectedColor,
       };
-      setScheduleData([eventData]);
-      console.log(eventData);
+      if (isBlocked) {
+        // Add logic to mark this event as blocked, e.g., set a flag or style
+        eventData.Subject = "Blocked Appointment"; // Change subject or add a custom property
+        eventData.CategoryColor = "#FF0000"; // Change color to red or any color to indicate blocked
+      }
+      console.log("Args Data: ", args.data);
+      console.log("Schedule Data: ", scheduleData);
+      console.log("Event Data: ", eventData);
+      setScheduleData([...scheduleData, eventData]);
     }
   };
 

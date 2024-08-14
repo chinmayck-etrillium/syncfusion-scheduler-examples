@@ -10,7 +10,7 @@ function App() {
 
   return (
     <>
-      <Scheduler></Scheduler>
+      {/* <Scheduler></Scheduler> */}
       <SchedulerWithColorPicker />
     </>
   );
