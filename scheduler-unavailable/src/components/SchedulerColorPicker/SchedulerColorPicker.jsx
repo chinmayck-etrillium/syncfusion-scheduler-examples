@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useMemo } from "react";
 import {
   ScheduleComponent,
   Day,
@@ -8,7 +8,11 @@ import {
   Inject,
   ViewsDirective,
   ViewDirective,
+  Agenda,
+  Resize,
+  DragAndDrop,
 } from "@syncfusion/ej2-react-schedule";
+import { DateTimePickerComponent } from "@syncfusion/ej2-react-calendars";
 import { ColorPickerComponent } from "@syncfusion/ej2-react-inputs";
 
 const SchedulerWithColorPicker = () => {
@@ -34,6 +38,18 @@ const SchedulerWithColorPicker = () => {
         <table className="custom-event-editor" style={{ width: "100%" }}>
           <tbody>
             <tr>
+              <td className="e-textlabel">Block Appointment</td>
+              <td colSpan={4}>
+                <input
+                  type="checkbox"
+                  id="isBlocked"
+                  checked={isBlocked}
+                  onChange={(e) => setIsBlocked(e.target.checked)} // Update block appointment state
+                />
+                <label htmlFor="isBlocked">Block this time slot</label>
+              </td>
+            </tr>
+            <tr>
               <td className="e-textlabel">Title</td>
               <td colSpan={4}>
                 <input
@@ -57,49 +73,28 @@ const SchedulerWithColorPicker = () => {
               </td>
             </tr>
             <tr>
-              <td className="e-textlabel">Start Time</td>
+              <td className="e-textlabel">From</td>
               <td colSpan={4}>
-                <input
+                <DateTimePickerComponent
+                  format="dd/MM/yy hh:mm a"
                   id="StartTime"
-                  className="e-field e-input"
-                  type="datetime-local"
-                  name="StartTime"
-                  defaultValue={
-                    props.StartTime
-                      ? new Date(props.StartTime).toISOString().slice(0, 16)
-                      : ""
-                  }
-                  style={{ width: "100%" }}
-                />
+                  data-name="StartTime"
+                  value={new Date(props.startTime || props.StartTime)}
+                  className="e-field"
+                ></DateTimePickerComponent>
               </td>
             </tr>
+
             <tr>
-              <td className="e-textlabel">Block Appointment</td>
+              <td className="e-textlabel">To</td>
               <td colSpan={4}>
-                <input
-                  type="checkbox"
-                  id="isBlocked"
-                  checked={isBlocked}
-                  onChange={(e) => setIsBlocked(e.target.checked)} // Update block appointment state
-                />
-                <label htmlFor="isBlocked">Block this time slot</label>
-              </td>
-            </tr>
-            <tr>
-              <td className="e-textlabel">End Time</td>
-              <td colSpan={4}>
-                <input
+                <DateTimePickerComponent
+                  format="dd/MM/yy hh:mm a"
                   id="EndTime"
-                  className="e-field e-input"
-                  type="datetime-local"
-                  name="EndTime"
-                  defaultValue={
-                    props.EndTime
-                      ? new Date(props.EndTime).toISOString().slice(0, 16)
-                      : ""
-                  }
-                  style={{ width: "100%" }}
-                />
+                  data-name="EndTime"
+                  value={new Date(props.endTime || props.EndTime)}
+                  className="e-field"
+                ></DateTimePickerComponent>
               </td>
             </tr>
           </tbody>
@@ -122,7 +117,8 @@ const SchedulerWithColorPicker = () => {
           eventData.Subject = "Blocked Appointment";
         }
         if (eventData.CategoryColor == "#1aaa55")
-          eventData.CategoryColor = "#FF0000"; // Change color to red or any color to indicate blocked
+          eventData.CategoryColor = "#e9ecef"; // Change color to red or any color to indicate blocked
+        eventData.IsBlock = true;
       }
 
       const updatedScheduleData = scheduleData.map((event) =>
@@ -139,7 +135,6 @@ const SchedulerWithColorPicker = () => {
       setScheduleData(updatedScheduleData);
     }
   };
-
   return (
     <ScheduleComponent
       ref={scheduleObj}
@@ -157,7 +152,9 @@ const SchedulerWithColorPicker = () => {
         <ViewDirective option="WorkWeek" />
         <ViewDirective option="Month" />
       </ViewsDirective>
-      <Inject services={[Day, Week, WorkWeek, Month]} />
+      <Inject
+        services={[Day, Week, WorkWeek, Month, Agenda, Resize, DragAndDrop]}
+      />
     </ScheduleComponent>
   );
 };
