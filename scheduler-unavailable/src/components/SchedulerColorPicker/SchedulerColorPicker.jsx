@@ -118,14 +118,25 @@ const SchedulerWithColorPicker = () => {
         CategoryColor: selectedColor,
       };
       if (isBlocked) {
-        // Add logic to mark this event as blocked, e.g., set a flag or style
-        eventData.Subject = "Blocked Appointment"; // Change subject or add a custom property
-        eventData.CategoryColor = "#FF0000"; // Change color to red or any color to indicate blocked
+        if (eventData.Subject == "Add title") {
+          eventData.Subject = "Blocked Appointment";
+        }
+        if (eventData.CategoryColor == "#1aaa55")
+          eventData.CategoryColor = "#FF0000"; // Change color to red or any color to indicate blocked
       }
+
+      const updatedScheduleData = scheduleData.map((event) =>
+        event.Id === eventData.Id ? eventData : event
+      );
+
+      if (!scheduleData.some((event) => event.Id === eventData.Id)) {
+        updatedScheduleData.push(eventData);
+      }
+
       console.log("Args Data: ", args.data);
       console.log("Schedule Data: ", scheduleData);
       console.log("Event Data: ", eventData);
-      setScheduleData([...scheduleData, eventData]);
+      setScheduleData(updatedScheduleData);
     }
   };
 
