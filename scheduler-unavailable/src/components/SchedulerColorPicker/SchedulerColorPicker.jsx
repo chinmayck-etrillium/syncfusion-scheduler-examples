@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from "react";
+import React, { useState, useRef } from "react";
 import {
   ScheduleComponent,
   Day,
@@ -18,7 +18,9 @@ import { ColorPickerComponent } from "@syncfusion/ej2-react-inputs";
 const SchedulerWithColorPicker = () => {
   const [scheduleData, setScheduleData] = useState([]);
   const [selectedColor, setSelectedColor] = useState("#1aaa55");
-  const [isBlocked, setIsBlocked] = useState(false);
+  const pickedColor = useRef("#1aaa55");
+  const isBlockedRef = useRef(false); // Use ref instead of state
+
   const scheduleObj = useRef(null);
 
   const onEventRendered = (args) => {
@@ -29,10 +31,15 @@ const SchedulerWithColorPicker = () => {
   };
 
   const onColorChange = (args) => {
-    setSelectedColor(args.currentValue.hex);
+    // setSelectedColor(args.currentValue.hex);
+    pickedColor.current = args.currentValue.hex;
   };
 
   const editorTemplate = (props) => {
+    const handleBlockChange = (e) => {
+      isBlockedRef.current = e.target.checked;
+    };
+
     return (
       <div>
         <table className="custom-event-editor" style={{ width: "100%" }}>
@@ -43,8 +50,8 @@ const SchedulerWithColorPicker = () => {
                 <input
                   type="checkbox"
                   id="isBlocked"
-                  checked={isBlocked}
-                  onChange={(e) => setIsBlocked(e.target.checked)} // Update block appointment state
+                  defaultChecked={isBlockedRef.current}
+                  onChange={handleBlockChange}
                 />
                 <label htmlFor="isBlocked">Block this time slot</label>
               </td>
@@ -67,7 +74,7 @@ const SchedulerWithColorPicker = () => {
               <td colSpan={4}>
                 <ColorPickerComponent
                   id="color-picker"
-                  value={selectedColor}
+                  value={props.CategoryColor || pickedColor.current}
                   change={onColorChange}
                 />
               </td>
@@ -110,15 +117,16 @@ const SchedulerWithColorPicker = () => {
     ) {
       const eventData = {
         ...args.data[0],
-        CategoryColor: selectedColor,
+        CategoryColor: pickedColor.current,
+        IsBlock: isBlockedRef.current, // Use the ref value
       };
-      if (isBlocked) {
-        if (eventData.Subject == "Add title") {
-          eventData.Subject = "Blocked Appointment";
-        }
-        if (eventData.CategoryColor == "#1aaa55")
-          eventData.CategoryColor = "#e9ecef"; // Change color to red or any color to indicate blocked
-        eventData.IsBlock = true;
+
+      if (eventData.IsBlock) {
+        eventData.Subject =
+          eventData.Subject === "Add title"
+            ? "Blocked Appointment"
+            : eventData.Subject;
+        eventData.CategoryColor = "#e9ecef"; // Indicate blocked with grey color
       }
 
       const updatedScheduleData = scheduleData.map((event) =>
@@ -129,12 +137,11 @@ const SchedulerWithColorPicker = () => {
         updatedScheduleData.push(eventData);
       }
 
-      console.log("Args Data: ", args.data);
-      console.log("Schedule Data: ", scheduleData);
-      console.log("Event Data: ", eventData);
       setScheduleData(updatedScheduleData);
+      console.log(updatedScheduleData);
     }
   };
+
   return (
     <ScheduleComponent
       ref={scheduleObj}

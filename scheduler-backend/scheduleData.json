@@ -26,5 +26,19 @@
     "Description": "Meeting",
     "RecurrenceRule": "FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;INTERVAL=1;",
     "Id": 2
+  },
+  {
+    "Subject": "Meeting with Fazil",
+    "Id": 3,
+    "StartTime": "2024-08-02T04:30:00.000Z",
+    "EndTime": "2024-08-02T05:00:00.000Z",
+    "IsAllDay": false
+  },
+  {
+    "Subject": "Meeting",
+    "Id": 4,
+    "StartTime": "2024-08-01T05:00:00.000Z",
+    "EndTime": "2024-08-01T05:30:00.000Z",
+    "IsAllDay": false
   }
 ]
