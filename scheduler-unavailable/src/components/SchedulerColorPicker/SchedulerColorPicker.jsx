@@ -19,6 +19,7 @@ const SchedulerWithColorPicker = () => {
   const [scheduleData, setScheduleData] = useState([]);
   const pickedColor = useRef("#1aaa55");
   const isBlockedRef = useRef(false);
+  const meetLink = useRef();
 
   const scheduleObj = useRef(null);
 
@@ -103,11 +104,45 @@ const SchedulerWithColorPicker = () => {
                 ></DateTimePickerComponent>
               </td>
             </tr>
+
+            <tr>
+              <td>Virtual Meet Link</td>
+              <td colSpan={4}>
+                <input type="text" value={props.MeetLink} ref={meetLink} />
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
     );
   };
+
+  function QuickInfoTemplate(props) {
+    return (
+      <div className="quick-info-popup">
+        <div>
+          <h4>{props.Subject}</h4>
+          <p>{props.Location}</p>
+          <p>{props.Description}</p>
+          {/* Custom Link */}
+          <div>
+            <a
+              href={props.MeetLink} // Assuming 'CustomLink' is part of your event data
+              target="_blank"
+              rel="noopener noreferrer"
+              className="custom-link"
+            >
+              Meet Link
+            </a>
+          </div>
+        </div>
+        <div className="quick-info-actions">
+          <button onClick={() => props.onEditClick()}>Edit</button>
+          <button onClick={() => props.onDeleteClick()}>Delete</button>
+        </div>
+      </div>
+    );
+  }
 
   const onActionComplete = (args) => {
     if (
@@ -117,8 +152,11 @@ const SchedulerWithColorPicker = () => {
       const eventData = {
         ...args.data[0],
         CategoryColor: pickedColor.current,
-        IsBlock: isBlockedRef.current, // Use the ref value
+        IsBlock: isBlockedRef.current,
+        MeetLink: meetLink.current.value, // Use the ref value
       };
+
+      console.log(eventData);
 
       if (eventData.IsBlock) {
         eventData.Subject =
@@ -150,6 +188,9 @@ const SchedulerWithColorPicker = () => {
       eventSettings={{ dataSource: scheduleData }}
       eventRendered={onEventRendered}
       editorTemplate={editorTemplate}
+      quickInfoTemplates={{
+        content: (props) => <QuickInfoTemplate {...props} />,
+      }}
       actionComplete={onActionComplete}
     >
       <ViewsDirective>
