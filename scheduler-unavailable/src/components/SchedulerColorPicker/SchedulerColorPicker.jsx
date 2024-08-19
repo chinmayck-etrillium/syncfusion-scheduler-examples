@@ -17,9 +17,8 @@ import { ColorPickerComponent } from "@syncfusion/ej2-react-inputs";
 
 const SchedulerWithColorPicker = () => {
   const [scheduleData, setScheduleData] = useState([]);
-  const [selectedColor, setSelectedColor] = useState("#1aaa55");
   const pickedColor = useRef("#1aaa55");
-  const isBlockedRef = useRef(false); // Use ref instead of state
+  const isBlockedRef = useRef(false);
 
   const scheduleObj = useRef(null);
 
@@ -86,7 +85,7 @@ const SchedulerWithColorPicker = () => {
                   format="dd/MM/yy hh:mm a"
                   id="StartTime"
                   data-name="StartTime"
-                  value={new Date(props.startTime || props.StartTime)}
+                  value={new Date(props.StartTime)}
                   className="e-field"
                 ></DateTimePickerComponent>
               </td>
@@ -99,7 +98,7 @@ const SchedulerWithColorPicker = () => {
                   format="dd/MM/yy hh:mm a"
                   id="EndTime"
                   data-name="EndTime"
-                  value={new Date(props.endTime || props.EndTime)}
+                  value={new Date(props.EndTime)}
                   className="e-field"
                 ></DateTimePickerComponent>
               </td>
@@ -138,7 +137,7 @@ const SchedulerWithColorPicker = () => {
       }
 
       setScheduleData(updatedScheduleData);
-      console.log(updatedScheduleData);
+      isBlockedRef.current = false;
     }
   };
 
