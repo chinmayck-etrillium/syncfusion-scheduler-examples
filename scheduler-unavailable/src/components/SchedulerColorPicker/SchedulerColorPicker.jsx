@@ -1,29 +1,34 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   ScheduleComponent,
   Day,
   Week,
   WorkWeek,
   Month,
+  Year,
   Inject,
   ViewsDirective,
   ViewDirective,
   Agenda,
   Resize,
   DragAndDrop,
+  RecurrenceEditorComponent,
 } from "@syncfusion/ej2-react-schedule";
 import { DateTimePickerComponent } from "@syncfusion/ej2-react-calendars";
 import { ColorPickerComponent } from "@syncfusion/ej2-react-inputs";
+import axios from "axios";
 
 const SchedulerWithColorPicker = () => {
   const [scheduleData, setScheduleData] = useState([]);
   const pickedColor = useRef("#1aaa55");
   const isBlockedRef = useRef(false);
+  const recurrenceEditorRef = useRef();
   const meetLink = useRef();
 
   const scheduleObj = useRef(null);
 
   const onEventRendered = (args) => {
+    console.log(args);
     if (args.data.CategoryColor) {
       args.element.style.backgroundColor = args.data.CategoryColor;
       args.element.style.borderColor = args.data.CategoryColor;
@@ -104,7 +109,16 @@ const SchedulerWithColorPicker = () => {
                 ></DateTimePickerComponent>
               </td>
             </tr>
-
+            <tr>
+              <td className="e-textlabel">Recurrence</td>
+              <td colSpan={4}>
+                <RecurrenceEditorComponent
+                  id="RecurrenceRule"
+                  ref={recurrenceEditorRef}
+                  value={props.RecurrenceRule}
+                />
+              </td>
+            </tr>
             <tr>
               <td>Virtual Meet Link</td>
               <td colSpan={4}>
@@ -113,6 +127,7 @@ const SchedulerWithColorPicker = () => {
             </tr>
           </tbody>
         </table>
+        {console.log("Props: ", props)}
       </div>
     );
   };
@@ -136,10 +151,6 @@ const SchedulerWithColorPicker = () => {
             </a>
           </div>
         </div>
-        <div className="quick-info-actions">
-          <button onClick={() => props.onEditClick()}>Edit</button>
-          <button onClick={() => props.onDeleteClick()}>Delete</button>
-        </div>
       </div>
     );
   }
@@ -153,7 +164,7 @@ const SchedulerWithColorPicker = () => {
         ...args.data[0],
         CategoryColor: pickedColor.current,
         IsBlock: isBlockedRef.current,
-        MeetLink: meetLink.current.value, // Use the ref value
+        MeetLink: meetLink.current.value,
       };
 
       console.log(eventData);
@@ -163,7 +174,7 @@ const SchedulerWithColorPicker = () => {
           eventData.Subject === "Add title"
             ? "Blocked Appointment"
             : eventData.Subject;
-        eventData.CategoryColor = "#e9ecef"; // Indicate blocked with grey color
+        eventData.CategoryColor = "#e9ecef"; //  blocked with grey color
       }
 
       const updatedScheduleData = scheduleData.map((event) =>
@@ -177,7 +188,37 @@ const SchedulerWithColorPicker = () => {
       setScheduleData(updatedScheduleData);
       isBlockedRef.current = false;
     }
+
+    const setsScheduleData = async () => {
+      try {
+        if (scheduleData.length > 0) {
+          const response = await axios.post(
+            "http://localhost:3001/api/schedule",
+            scheduleData
+          );
+        }
+      } catch (err) {
+        console.log("Error: ", err);
+      }
+    };
+    setsScheduleData();
   };
+
+  useEffect(() => {
+    const getScheduleData = async () => {
+      try {
+        const response = await axios.get("http://localhost:3001/api/schedule");
+        if (response.status === 200) {
+          setScheduleData(response.data);
+        } else {
+          console.log("Response: ", response);
+        }
+      } catch (err) {
+        console.log("Error: ", err);
+      }
+    };
+    getScheduleData();
+  }, []);
 
   return (
     <ScheduleComponent
@@ -198,9 +239,20 @@ const SchedulerWithColorPicker = () => {
         <ViewDirective option="Week" />
         <ViewDirective option="WorkWeek" />
         <ViewDirective option="Month" />
+        <ViewDirective option="Year" />
+        <ViewDirective option="Agenda" />
       </ViewsDirective>
       <Inject
-        services={[Day, Week, WorkWeek, Month, Agenda, Resize, DragAndDrop]}
+        services={[
+          Day,
+          Week,
+          WorkWeek,
+          Month,
+          Year,
+          Agenda,
+          Resize,
+          DragAndDrop,
+        ]}
       />
     </ScheduleComponent>
   );
