@@ -31,7 +31,7 @@ body {
 .dashboard-container .navbar-menu .navbar-ul {
     list-style: none;
     margin: 0;
-    padding: 0;
+    padding: 0px 50px;
     display: flex;
     /* Flexbox for menu items */
 }
@@ -76,7 +76,7 @@ body {
     /* Positioned relative to the parent */
     background-color: #ffffff;
     /* Background color for visibility */
-    min-width: 160px;
+    min-width: 130px;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
     z-index: 1;
     margin-top: 10px;

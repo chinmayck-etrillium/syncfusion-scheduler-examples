@@ -7,6 +7,8 @@ import CompletedAppointments from "./components/CompletedAppointments/CompletedA
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout/Layout";
 import Calender from "./components/Calender/Calender";
+import CompletedPayments from "./components/Payments/CompletedPayments";
+import PendingPayments from "./components/Payments/PendingPayments";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -25,6 +27,8 @@ function App() {
               element={<CompletedAppointments />}
             ></Route>
             <Route path="/scheduler-colorpicker" element={<Calender />} />
+            <Route path="/completed-payments" element={<CompletedPayments />} />
+            <Route path="/pending-payments" element={<PendingPayments />} />
           </Route>
         </Routes>
       </BrowserRouter>

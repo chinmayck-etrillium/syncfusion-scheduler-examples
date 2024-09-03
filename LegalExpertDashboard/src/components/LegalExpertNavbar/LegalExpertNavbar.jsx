@@ -23,10 +23,18 @@ const LegalExpertNavbar = () => {
               </ul>
             </li>
             <li>
-              <a href="/scheduler-colorpicker">Calendar</a>
+              <Link to="/scheduler-colorpicker">Calendar</Link>
             </li>
-            <li>
-              <a href="#payments">Payments</a>
+            <li className="dropdown-menu">
+              <a className="dropdown-toggle">Payments</a>
+              <ul className="dropdown-content">
+                <li>
+                  <Link to="/completed-payments">Completed</Link>
+                </li>
+                <li>
+                  <Link to="/pending-payments">Pending</Link>
+                </li>
+              </ul>
             </li>
           </ul>
         </nav>

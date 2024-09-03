@@ -1,42 +1,83 @@
 .upcoming-appointments {
-    margin: 20px;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: #f9f9f9;
-  }
-  
-  .upcoming-appointments h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #333;
-  }
-  
-  .appointments-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
-    font-size: 16px;
-  }
-  
-  .appointments-table th,
-  .appointments-table td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .appointments-table th {
-    background-color: #f2f2f2;
-    color: #333;
-  }
-  
-  .appointments-table td a {
-    color: #1a73e8;
-    text-decoration: none;
-  }
-  
-  .appointments-table td a:hover {
-    text-decoration: underline;
-  }
-  
+  margin: 20px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+}
+
+.upcoming-appointments h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.appointments-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 16px;
+}
+
+.appointments-table th,
+.appointments-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.appointments-table th {
+  background-color: #f2f2f2;
+  color: #333;
+}
+
+.appointments-table td a {
+  color: #1a73e8;
+  text-decoration: none;
+}
+
+.appointments-table td a:hover {
+  text-decoration: underline;
+}
+
+/* Container for pagination buttons */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+/* Style for pagination buttons */
+.pagination button {
+  background-color: #f4f4f4;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  color: #333;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0 5px;
+  padding: 10px 15px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Style for active pagination button */
+.pagination button.active {
+  background-color: #007bff;
+  border-color: #007bff;
+  color: #fff;
+}
+
+/* Style for pagination button hover state */
+.pagination button:hover {
+  background-color: #e2e6ea;
+  border-color: #cfd3d6;
+}
+
+/* Style for disabled pagination button (optional) */
+.pagination button:disabled {
+  background-color: #e9ecef;
+  border-color: #ced4da;
+  color: #6c757d;
+  cursor: not-allowed;
+}
